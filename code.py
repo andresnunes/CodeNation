@@ -37,11 +37,18 @@ json_dict["decifrado"] = mensagem_decifrada
 sha1 = hashlib.sha1(mensagem_decifrada.encode())
 json_dict["resumo_criptografico"] = sha1.hexdigest()
 
-#req = requests.post("https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=9d03d611b6b7b76712792ecaa775a0012cd96825",data=json_dict)
-
 print(json_dict)
 
+# lidar com o arquivo answer.json
 with open("answer.json","w") as f:
     json.dump(json_dict, f, ensure_ascii=False, indent=4)
+
+
+answer = {'answer': ('answer.json', open("answer.json", "rb"))}
+
+
+req = requests.post("https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=9d03d611b6b7b76712792ecaa775a0012cd96825", files=answer)
+
+print(req.json())
 
 
